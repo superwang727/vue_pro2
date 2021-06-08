@@ -36,6 +36,10 @@
       <el-button type="default" @click="resetData()">清空</el-button>
     </el-form>
 
+    <div style="margin-bottom: 10px">
+      <el-button type="danger" size="mini" @click="batchRemove()">批量删除</el-button>
+    </div>
+
     <!-- 表格 -->
     <el-table
       v-loading="listLoading"
@@ -43,7 +47,10 @@
       element-loading-text="数据加载中"
       border
       fit
-      highlight-current-row>
+      highlight-current-row
+      @selection-change="handleSelection">
+
+      <el-table-column type="selection" />
 
       <el-table-column
         label="序号"
@@ -99,7 +106,8 @@ export default{
       page: 1, // 第几页
       every_page_data: 5, // 每页显示多少条数据
       pageObj: {}, // 对象查询
-      total_data: 0 // 返回的总数居
+      total_data: 0, // 返回的总数居
+      MultipleSelection: [] // 批量选中数据
     }
   },
 
@@ -150,6 +158,46 @@ export default{
             message: resp.message,
             type: 'success'
           })
+        })
+      }).catch((err) => {
+        if (err === 'cancel') {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          })
+        }
+      })
+    },
+
+    handleSelection(selection) {
+      this.MultipleSelection = selection
+    },
+
+    batchRemove(ids) {
+      if (this.MultipleSelection.length === 0) {
+        this.$message({
+          type: 'warning',
+          message: '请选择要删除的记录'
+        })
+        return
+      }
+
+      // 询问是否删除
+      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const idList = []
+        this.MultipleSelection.forEach(item => {
+          idList.push(item.id)
+        })
+        return req.batchRemoveByIds(idList)
+      }).then(resp => {
+        this.fachData()
+        this.$message({
+          message: resp.message,
+          type: 'success'
         })
       }).catch((err) => {
         if (err === 'cancel') {

@@ -24,6 +24,14 @@ export default{
     })
   },
 
+  batchRemoveByIds(ids) {
+    return request({
+      url: '/admin/edu/teacher/batchRemoveTeachers',
+      method: 'delete',
+      data: ids
+    })
+  },
+
   // 保存教师
   saveTeacher(teacher) {
     return request({
