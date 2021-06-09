@@ -58,6 +58,14 @@ export default{
       data: teacher
 
     })
+  },
+
+  // 根据key查名字
+  findTeacherNameByKey(key) {
+    return request({
+      url: `/admin/edu/teacher/findTeacherByName/name/${key}`,
+      method: 'get'
+    })
   }
 
 }

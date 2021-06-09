@@ -3,7 +3,16 @@
     <!--查询表单-->
     <el-form :inline="true" class="demo-form-inline">
       <el-form-item>
-        <el-input v-model="pageObj.name" placeholder="讲师名"/>
+        <!-- <el-input v-model="pageObj.name" placeholder="讲师名"/> -->
+        <el-autocomplete
+          v-model="pageObj.name"
+          :fetch-suggestions="querySearch"
+          :trigger-on-focus="false"
+          class="inline-input"
+          placeholder="讲师名"
+          value-key="name"
+
+        />
       </el-form-item>
 
       <el-form-item>
@@ -206,6 +215,15 @@ export default{
             message: '已取消删除'
           })
         }
+      })
+    },
+
+    // 根据key查名字
+    querySearch(queryString, callback) {
+      req.findTeacherNameByKey(queryString).then(resp => {
+        console.log(resp)
+
+        callback(resp.data.nameList)
       })
     }
 
