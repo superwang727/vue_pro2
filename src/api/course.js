@@ -15,6 +15,14 @@ export default {
       url: `/admin/edu/course/course-info/${id}`,
       method: 'get'
     })
+  },
+
+  updateCourseById(courseInfo) {
+    return request({
+      url: '/admin/edu/course/update-course-info',
+      method: 'put',
+      data: courseInfo
+    })
   }
 
 }

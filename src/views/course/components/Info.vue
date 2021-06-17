@@ -22,7 +22,6 @@
       </el-form-item>
 
       <!-- 所属分类 TODO -->
-
       <!-- 一级分类-->
       <el-form-item label="课程分类">
         <el-select
@@ -126,10 +125,17 @@ export default {
   },
 
   methods: {
+
     // 保存并且下一步
     saveAndNext() {
+      console.log('pid:', this.$parent.courseId)
       this.saveBtnDisabled = true
-      this.saveCourseData()
+
+      if (this.$parent.courseId) {
+        this.updateData()
+      } else {
+        this.saveCourseData()
+      }
     },
 
     // 保存课程数据，拿到课程的id，赋值给父级的list.vue中的courseId，这样三个步骤都可以共用courseId了
@@ -218,6 +224,14 @@ export default {
             }
           })
         })
+      })
+    },
+
+    // 数据更新，就是回显之后，再保存数据
+    updateData() {
+      courseApi.updateCourseById(this.courseInfo).then(resp => {
+        this.$message.success(resp.message)
+        this.$parent.active = 1 // 下一步
       })
     }
 
