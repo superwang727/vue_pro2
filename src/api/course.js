@@ -23,6 +23,14 @@ export default {
       method: 'put',
       data: courseInfo
     })
+  },
+
+  queryCoursePageList(page, limit, pageObj) {
+    return request({
+      url: `/admin/edu/course/listPage/${page}/${limit}`,
+      method: 'get',
+      params: pageObj
+    })
   }
 
 }
