@@ -217,7 +217,26 @@ export default {
       this.pageObj = {}
       this.subjectLevelTwoList = [] // 二级分类列表
       this.fetchCrousePageData()
+    },
+
+    // 删除课程数据
+    removeById(id) {
+      this.$confirm('此操作将永久删除该课程，以及该课程下的章节和视频，是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        return courseApi.deleteCourseById(id)
+      }).then(response => {
+        this.fetchCrousePageData()
+        this.$message.success(response.message)
+      }).catch((response) => { // 失败
+        if (response === 'cancel') {
+          this.$message.info('取消删除')
+        }
+      })
     }
+
   }
 }
 </script>

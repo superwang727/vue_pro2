@@ -31,6 +31,14 @@ export default {
       method: 'get',
       params: pageObj
     })
+  },
+
+  // 删除课程
+  deleteCourseById(id) {
+    return request({
+      url: `/admin/edu/course/remove/${id}`,
+      method: 'delete'
+    })
   }
 
 }
