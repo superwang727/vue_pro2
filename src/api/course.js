@@ -39,6 +39,23 @@ export default {
       url: `/admin/edu/course/remove/${id}`,
       method: 'delete'
     })
+  },
+
+  // 根据id查询发布课程
+  fetchPublishCourseById(id) {
+    return request({
+      url: `/admin/edu/course/course-publish/${id}`,
+      method: 'get'
+    })
+  },
+
+  // 发布课程
+  publishCourseById(id) {
+    return request({
+      url: `/admin/edu/course/put-publish-course/${id}`,
+      method: 'put'
+    })
   }
 
 }
+
