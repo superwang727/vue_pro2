@@ -16,7 +16,7 @@ export default {
     })
   },
 
-  save(chapter) {
+  saveChapter(chapter) {
     return request({
       url: '/admin/edu/chapter/save',
       method: 'post',

@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import courseApi from '@/api/chapter'
+
 export default {
 
   data() {
@@ -29,28 +31,49 @@ export default {
   },
 
   methods: {
-    open() {
+    open(chapterId) {
       this.dialogVisible = true
+      if (chapterId) {
+        // 如果有值,说明是从编页面进去的,要回显数据
+        courseApi.getById(chapterId).then(resp => {
+          this.chapter = resp.data.item
+        })
+      }
     },
 
     close() {
       this.dialogVisible = false
+      // 清空表单
+      this.chapter = {
+        sort: 0
+      }
     },
 
     saveOrUpdate() {
       if (!this.chapter.id) {
+        console.log('save')
         this.save()
       } else {
         this.update()
+        console.log('update')
       }
     },
 
     save() {
-
+      this.chapter.courseId = this.$parent.$parent.courseId
+      courseApi.saveChapter(this.chapter).then(resp => {
+        this.$message.success(resp.message)
+        this.close()
+        this.$parent.fetchNodeList()
+      })
     },
 
     update() {
-
+      courseApi.updateById(this.chapter).then(resp => {
+        this.$message.success(resp.message)
+        this.close()
+        this.$parent.fetchNodeList()
+      })
     }
   }
 }

@@ -36,6 +36,18 @@ export default {
       courseId: null
 
     }
+  },
+
+  created() {
+    if (this.$route.name === 'CourseInfoEdit') {
+      console.log('info')
+      this.active = 0
+      this.courseId = this.$route.params.id
+    } else if (this.$route.name === 'CourseChapterEdit') {
+      console.log('cha')
+      this.active = 1
+      this.courseId = this.$route.params.id
+    }
   }
 }
 </script>

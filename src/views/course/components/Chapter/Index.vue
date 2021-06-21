@@ -5,7 +5,11 @@
       <el-button type="primary" @click="addChapter()">添加章节</el-button>
     </div>
 
+    <!-- 添加章节表单组件 -->
     <chapter-form ref="chapterForm" />
+
+    <!-- 添加课时组件 -->
+    <video-form ref="videoForm" />
 
     <!-- 章节列表 -->
     <ul class="chapterList">
@@ -15,8 +19,8 @@
         <p>
           {{ chapter.title }}
           <span class="acts">
-            <el-button type="text">添加课时</el-button>
-            <el-button type="text">编辑</el-button>
+            <el-button type="text" @click="addVideo(chapter.id)">添加课时</el-button>
+            <el-button type="text" @click="editChapter(chapter.id)">编辑</el-button>
             <el-button type="text" @click="removeChapterById(chapter.id)">删除</el-button>
           </span>
         </p>
@@ -32,7 +36,7 @@
               </el-tag>
               <span class="acts">
                 <el-tag v-if="video.free" size="mini" type="success">{{ '免费观看' }}</el-tag>
-                <el-button type="text">编辑</el-button>
+                <el-button type="text" @click="editVideo(chapter.id, video.id)">编辑</el-button>
                 <el-button type="text">删除</el-button>
               </span>
             </p>
@@ -54,9 +58,11 @@ import chapterApi from '@/api/chapter'
 
 import ChapterForm from '@/views/course/components/Chapter/Form' // 引入自定义组件
 
+import videoForm from '@/views/course/components/Video/Form' // 引入自定义组件
+
 export default {
 
-  components: { ChapterForm }, // 引入自定义组件
+  components: { ChapterForm, videoForm }, // 引入自定义组件
 
   data() {
     return {
@@ -112,10 +118,21 @@ export default {
       this.$refs.chapterForm.open()
     },
 
+    // 编辑章节,这个和上面 添加章节是一样的open方法,没有重载,如果opne有值就下面,没有就上面
+    editChapter(chapterId) { this.$refs.chapterForm.open(chapterId) },
     close() {
       this.dialogVisible = false
       // 重置表单
       this.resetForm()
+    },
+
+    // 添加课时
+    addVideo(chapterId) {
+      this.$refs.videoForm.open(chapterId)
+    },
+    // 编辑课时
+    editVideo(chapterId, videoId) {
+      this.$refs.videoForm.open(chapterId, videoId)
     },
 
     // 上一步

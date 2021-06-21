@@ -114,15 +114,15 @@ export default {
   },
 
   created() {
-    if (this.$route.name === 'CourseInfoEdit') {
-      this.$parent.courseId = this.$route.params.id
-      this.active = 0
-    }
+    // if (this.$route.name === 'CourseInfoEdit') {
+    //   this.$parent.courseId = this.$route.params.id
+    //   this.active = 0
+    // }
 
-    if (this.$route.name === 'CourseChapterEdit') {
-      this.$parent.courseId = this.$route.params.id
-      this.active = 1
-    }
+    // if (this.$route.name === 'CourseChapterEdit') {
+    //   this.$parent.courseId = this.$route.params.id
+    //   this.active = 1
+    // }
 
     if (this.$parent.courseId) { // 如果courseID不是空，就回显数据
       this.fetchCourseById(this.$parent.courseId)
